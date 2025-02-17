@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Bell,
   CheckCircle,
@@ -38,6 +38,18 @@ const Dropdown = ({ completed, id, project}) => {
     setDeleteError,
   ] = useRequest();
   const navigate = useNavigate();
+   const DropdownRef = useRef(null);
+  
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (DropdownRef.current && !DropdownRef.current.contains(event.target)) {
+          setIsDropOpen(false);
+        }
+      };
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+  
 
   const handleComplete = async () => {
     setCompleteLoading(true);
@@ -88,7 +100,7 @@ const Dropdown = ({ completed, id, project}) => {
           <EllipsisVertical className="text-black" />
         </button>
         {isDropOpen && (
-          <div className="absolute right-0 top-6 z-50 mt-2 w-max rounded-lg border bg-white font-medium shadow-lg transition-all duration-300 ease-in">
+          <div className="absolute right-0 top-6 z-50 mt-2 w-max rounded-lg border bg-white font-medium shadow-lg transition-all duration-300 ease-in" ref={DropdownRef} >
             <div>
               {authorized && (
                 <Link to={`/home/projects/edit/${id}`} state={project}>

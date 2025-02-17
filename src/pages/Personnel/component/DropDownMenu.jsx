@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 import { getSessionStorage } from "../../../Modules/getSessionStorage";
 import {
@@ -25,7 +25,19 @@ const DropDownMenu = ({ role, suspended, profile }) => {
   const [useLeadRequest, leadLoading, setLeadLoading] = useRequest();
   const [useDeleteRequest, deleteLoading, setDeleteLoading] = useRequest();
   const [useSuspendRequest, suspendLoading, setSuspendLoading] = useRequest();
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+
+  const DropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (DropdownRef.current && !DropdownRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleLead = async () => {
     const lead = profileRole === "Lead";
@@ -102,24 +114,23 @@ const DropDownMenu = ({ role, suspended, profile }) => {
 
   return (
     <div
-      className={`absolute right-10 top-10 ${
-        userRole !== "Intern" ? "block" : "hidden"
-      }`}
+      className={`absolute right-10 top-10 ${userRole !== "Intern" ? "block" : "hidden"
+        }`}
     >
       <div className="relative">
         <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
           <FaEllipsisV color="white" size={20} />
         </button>
         {isMenuOpen && (
-          <div className="absolute right-0 top-6 z-50 mt-2 w-max rounded border bg-white font-medium shadow-lg transition-all duration-300 ease-in">
+          <div className="absolute right-0 top-6 z-50 mt-2 w-max rounded border bg-white font-medium shadow-lg transition-all duration-300 ease-in" ref={DropdownRef}>
             <div>
               <Link
                 className={`flex w-full items-center gap-2 border-b px-4 py-2 text-sm text-zinc-700 hover:bg-gray-100`}
                 to={`/home/personnel/edit/:id`}
                 state={profile}
               >
-                  <Edit />
-                  <p>Edit</p>
+                <Edit />
+                <p>Edit</p>
               </Link>
 
               <button

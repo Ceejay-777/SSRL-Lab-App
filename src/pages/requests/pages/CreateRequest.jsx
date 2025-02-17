@@ -173,6 +173,7 @@ const CreateRequest = () => {
         <Toggle
           activeOptions={[activeOption, setActiveOption]}
           ToggleItems={["equipment", "leave", "other"]}
+          className="sm:mx-auto"
         />
 
         {activeOption === "equipment" && (
