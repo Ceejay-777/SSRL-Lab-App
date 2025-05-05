@@ -1,7 +1,11 @@
+import { MinusCircle } from "lucide-react";
 import { Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import TaskCard from "../../Todo/components/TaskCard";
+import { useState } from "react";
 
 const Todo = ({ todos }) => {
+  const [tasks, setTasks] = useState(todos);
   return (
     <div className="w-full rounded-2xl border p-6 shadow-lg">
       <h2 className="mb-4 text-2xl font-bold">To-do list</h2>
@@ -17,26 +21,29 @@ const Todo = ({ todos }) => {
       </div>
       <ul className="space-y-2">
         {todos.length > 0 ? (
-          todos.map((todo) => (
-            <li
-              key={todo.id}
-              className="flex items-center justify-between rounded-md bg-gray-100 px-4 py-2"
-            >
-              {" "}
-              <div className="flex justify-center gap-2">
-                <input
-                  type="checkbox"
-                  // checked
-                  // onChange={}
-                  className="mr-3"
-                />
-                <span>{todo.task}</span>
-              </div>
-              <button className="text-red-500 hover:text-red-700">
-                <Trash2 color="red" />
-              </button>
-            </li>
-          ))
+          todos.map((todo) => {
+            return (
+            // const { todo, id, completed } = todo;
+            // <li
+            //   key={todo.id}
+            //   className="flex items-center justify-between rounded-md bg-gray-100 px-4 py-2 gap-4"
+            // >
+            //   {" "}
+            //   <div className="flex justify-center gap-2">
+            //     <input
+            //       type="checkbox"
+            //       // checked
+            //       // onChange={}
+            //       className="mr-3"
+            //     />
+            //     <span className="truncate">{todo.todo}</span>
+            //   </div>
+            //   <button className="text-red-500 hover:text-red-700">
+            //     <MinusCircle color="red" />
+            //   </button>
+            // </li>
+            <TaskCard tasks={tasks} setTasks={setTasks} tasky={todo} key={todo.id} />
+          )})
         ) : (
           <p>Loading to-do items...</p>
         )}

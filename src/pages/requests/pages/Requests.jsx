@@ -10,7 +10,6 @@ import { formatDistanceToNow } from "date-fns";
 import { getInitials, getRandomSoftHexColor } from "../../../Modules/funcs";
 import RequestsSkeleton from "../../../components/skeletons/RequestsSkeleton";
 
-
 const Requests = () => {
   const [requests, setRequests] = useState([]);
 
@@ -31,22 +30,24 @@ const Requests = () => {
       console.log(data);
       setRequests(data.requests);
     } else {
-      const data = await res.json();
       setRequestError({ status: true, msg: data.message });
     }
     setRequestLoading(false);
   };
 
   useEffect(() => {
+    console.log("okay")
     getAllRequests();
   }, []);
 
   return (
     <div>
       {/* Header */}
-      <div className="mt-4 md:px-4 px-1">
-        <div className="flex justify-between items-center">
-          <h1 className="uppercase font-medium text-xl md:text-2xl">Requests</h1>
+      <div className="mt-4 px-1 md:px-4">
+        <div className="flex items-center justify-between">
+          <h1 className="text-xl font-medium uppercase md:text-2xl">
+            Requests
+          </h1>
           <div>
             <Link
               className="flex items-center gap-2 p-2 text-base font-medium transition-all duration-300 hover:rounded-lg hover:bg-neutral-100 md:text-lg"
@@ -79,7 +80,13 @@ const Requests = () => {
             </div>
           </div>
 
-        <RequestsSkeleton/>
+          {getRequestLoading && (
+            <div>
+              <RequestsSkeleton />
+              <RequestsSkeleton />
+              <RequestsSkeleton />
+            </div>
+          )}
           {/* Messages */}
           <section className="mt-4">
             {requests &&
@@ -87,7 +94,7 @@ const Requests = () => {
                 const { created_at, avatar, sender, title, _id } = request;
                 return (
                   <Link
-                    className="flex items-center gap-4 border-b hover:bg-zinc-100 fromTop"
+                    className="fromTop flex items-center gap-4 border-b hover:bg-zinc-100"
                     key={created_at}
                     to={`/home/requests/${_id}`}
                     state={request}

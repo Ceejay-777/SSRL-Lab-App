@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import forgotPassword from "../../assets/ForgotPassword.svg"; // Importing the image
 import Backtosignin from "../../assets/Backtosignin.svg"; // Importing the image
 import CustomLabel from "../../components/CustomLabel.jsx";
@@ -7,6 +7,9 @@ import { validateEmail } from "../../Modules/verifyForm.js";
 import { useRequest } from "../../Modules/useRequest.js";
 import { useUserData } from "../../Modules/UserContext.jsx";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../../components/Spinner.jsx";
+import BigGreenButton from "../../components/BigGreenButton.jsx";
+import toast from "react-hot-toast";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState({ email: "", isError: false, msg: "" });
@@ -31,81 +34,69 @@ const ForgotPassword = () => {
     }
   };
 
-  const confirmCredentials = () => {
-    console.log(userId);
-    sendCredRequest("confirm/credentials", {
+  const confirmCredentials = async () => {
+    // console.log(userId);
+    const res = await sendCredRequest("forgot_password", "POST", {
       uid: userId,
       email: email.email,
-    }).then((res) => {
-      const data = res.json();
-      if (res.ok) {
-        console.log("Success");
-        navigate("/sendOTP");
-      } else {
-        return data.then((data) =>
-          setCredError({ status: true, msg: data.message })
-        );
-      }
     });
+
+    const data = await res.json();
+    if (res.ok) {
+      toast.success(data.message);
+      setTimeout(() => {
+        navigate("/sendOTP");
+      }, 2000);
+    } else {
+      setCredError({ status: true, msg: data.message });
+    }
   };
 
-  useEffect(() => {
-    sendForgetRequest("forgot/password").then((res) => res.json());
-    // .then((data) => console.log(data.status));
-  }, []);
-
   return (
-    <div className="w-full flex justify-center items-center md:min-h-screen bg-white">
+    <div className="flex w-full items-center justify-center bg-white md:min-h-screen">
       {/* forgot password tab */}
-      <div className="w-full max-w-md space-y-6 p-6 m ">
+      <div className="m w-full max-w-md space-y-6 p-6">
         {credError.status && <p>{credError.msg}</p>}
-        <div className="flex justify-center items-center">
+        <div className="flex items-center justify-center">
           <img src={forgotPassword} alt="forgot Password" />
         </div>
 
-        <h2 className=" text-center text-3xl font-semibold text-[#333333] leading-10">
+        <h2 className="text-center text-3xl font-semibold leading-10 text-[#333333]">
           Forgot Password
         </h2>
-        <p className=" text-center text-[#666666] opacity-75 font-medium text-sm  py-1">
-          Enter your Email and we'll send you a link to reset your password
+        <p className="py-1 text-center text-sm font-medium text-[#666666] opacity-75">
+          Enter your Email and we&apos;ll send you a link to reset your password
         </p>
 
-        <form className=" space-y-8" onSubmit={handleForgetPassword} noValidate>
-          <div className="rounded-md shadow-sm text-base font-normal opacity-80">
-            <CustomLabel
-              htmlFor="email"
-              labelText="Email:"
-              inputType="email"
-              inputValue={email.email}
-              onChange={(event) =>
-                setEmail({ ...email, email: event.target.value })
-              }
-              onBlur={() => validateEmail(email, setEmail, validateEmailRef)}
-              isError={email.isError}
-              errorMessage={email.msg}
-              labelCLassName="text-[#666666] inline-block"
-              inputClassName="appearance-none relative block w-full px-3 py-1 border border-[#666666] rounded-lg text-[#111111] opacity-35 focus:outline-none focus:opacity-100 focus:text-black"
-              placeholder='Enter email address'
-            >Email Address</CustomLabel>
-          </div>
+        <form className="space-y-8" onSubmit={handleForgetPassword} noValidate>
+          <CustomLabel
+            htmlFor="email"
+            labelText="Email:"
+            inputType="email"
+            inputValue={email.email}
+            onChange={(event) =>
+              setEmail({ ...email, email: event.target.value })
+            }
+            onBlur={() => validateEmail(email, setEmail, validateEmailRef)}
+            isError={email.isError}
+            errorMessage={email.msg}
+            placeholder="Enter email address"
+          >
+            Email Address
+          </CustomLabel>
 
-          <div className="text-center mt-2">
-            <button
-              type="submit"
-              className="bg-[#053F05F0] text-white mt-6 px-1 py-2 font-bold text-xl capitalize rounded-xl w-full block"
-            >
-              Submit
-            </button>
+          <div className="mt-2 flex items-center justify-end gap-4">
+            {credLoading && <Spinner />}
+            <BigGreenButton type="submit">Submit</BigGreenButton>
           </div>
-          {credLoading && <p>Loading...</p>}
         </form>
 
-        <div className="text-center  font-medium text-base flex justify-center items-center mt-2 gap-3">
+        <div className="mt-2 flex items-center justify-center gap-3 text-center text-base font-medium">
           <img src={Backtosignin} alt="BacK" />
 
           <Link
             to="/"
-            className="text-[#666666] opacity-75 font-medium text-base"
+            className="text-base font-medium text-[#666666] opacity-75"
           >
             Back to Sign in{" "}
           </Link>

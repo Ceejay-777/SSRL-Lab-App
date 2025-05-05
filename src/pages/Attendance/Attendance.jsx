@@ -1,6 +1,13 @@
+
+
 const Attendance = () => {
+
     return (
-        <div className='w-full min-h-screen flex justify-center items-center text-4xl font-medium'>Coming Soon ...</div>
+        <div className="">
+            coming soon
+
+        </div>
+
     )
 }
 

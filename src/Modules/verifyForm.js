@@ -40,7 +40,7 @@ export const validateEmail = (email, setEmail, validateEmailRef) => {
     validateEmailRef.current = false;
     return;
   }
-  const reg = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
+  const reg = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
   if (!reg.test(email.email)) {
     setEmail({
       ...email,

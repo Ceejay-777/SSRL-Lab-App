@@ -44,6 +44,7 @@ const Dashboard = () => {
           reports,
           requests,
           stack,
+          todos
         } = data;
         setSessionStorage("userRole", user_role);
         setSessionStorage("userStack", stack);
@@ -52,6 +53,7 @@ const Dashboard = () => {
         setProjects(projects);
         setReports(reports);
         setRequests(requests);
+        setTodos(todos);
       }
       console.log(data);
     } else {
@@ -70,7 +72,7 @@ const Dashboard = () => {
     <div className="p-2 fromLeft">
       {profileError.status && (
         <p className="text-red-500">
-          Couldn&apos;t load your dashboard. {profileError.msg} <span className="hover:underline" onClick={getProfile}>Retry?</span>
+          Couldn&apos;t load your dashboard. {profileError.msg} <span className="hover:underline cursor-pointer" onClick={getProfile}>Retry?</span>
         </p>
       )}
       <div className="flex w-full flex-col items-center justify-start gap-10 overflow-y-auto md:flex-row md:items-start ">

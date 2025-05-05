@@ -25,15 +25,13 @@ const navData = [
   { icon: <Settings />, text: "Settings", path: "/home/settings", id: 8 },
 ];
 
-
-
 const SideNav = ({ toggleSideNav, isSideNavOpen }) => {
   return (
     <div
-      className={`relative z-50 flex min-h-screen w-64 max-w-[20rem] flex-col bg-navBg2 py-4 pl-2 pr-0 text-white`}
+      className={`relative z-50 flex min-h-screen h-screen w-64 max-w-[20rem] flex-col bg-navBg2 py-4 pl-2 pr-0 overflow-y-scroll text-white max-h-screen`}
     >
       {/* Logo Section */}
-      <div className="ssss mt-2 flex items-center justify-end gap-3 px-6 py-4">
+      <div className="mt-2 flex items-center justify-end gap-3 px-6 py-4">
         <img
           src="/vite.svg"
           alt="Logo"
@@ -62,7 +60,7 @@ const SideNav = ({ toggleSideNav, isSideNavOpen }) => {
                 "flex items-center gap-3 rounded-l-full p-3 pl-4 transition-colors duration-300",
               ].join(" ")
             }
-            key={text}
+            key={text} 
           >
             {({ isActive }) => (
               <>
