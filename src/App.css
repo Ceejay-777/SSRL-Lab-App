@@ -164,3 +164,11 @@
 .fromBottom {
   animation: slideUp 0.7s ease-out forwards;
 }
+
+.left-scroll {
+  direction: rtl;
+}
+
+.left-scroll div {
+  direction: ltr;
+}

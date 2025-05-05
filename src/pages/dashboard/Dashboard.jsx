@@ -11,13 +11,11 @@ import Notifications from "./components/Notifications";
 
 const Dashboard = () => {
   const [name, setName] = useState("");
-  const [data, setData] = useState();
   const [projects, setProjects] = useState([]);
   const [reports, setReports] = useState([]);
   const [requests, setRequests] = useState([]);
   const [todos, setTodos] = useState([]);
   const [notifications, setNotifications] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [
     sendProfileRequest,
     profileLoading,
@@ -26,13 +24,12 @@ const Dashboard = () => {
     setProfileError,
   ] = useRequest();
 
-  const { userId } = useUserData();
+  const { userId, setUnread } = useUserData();
 
   const getProfile = async () => {
     setProfileLoading(true);
     const res = await sendProfileRequest("home");
 
-    console.log(res);
     const data = await res.json();
     if (res.ok) {
       if (data) {
@@ -44,7 +41,8 @@ const Dashboard = () => {
           reports,
           requests,
           stack,
-          todos
+          todos,
+          unread
         } = data;
         setSessionStorage("userRole", user_role);
         setSessionStorage("userStack", stack);
@@ -54,6 +52,7 @@ const Dashboard = () => {
         setReports(reports);
         setRequests(requests);
         setTodos(todos);
+        setUnread(unread)
       }
       console.log(data);
     } else {

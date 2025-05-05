@@ -28,7 +28,7 @@ const navData = [
 const SideNav = ({ toggleSideNav, isSideNavOpen }) => {
   return (
     <div
-      className={`relative z-50 flex min-h-screen h-screen w-64 max-w-[20rem] flex-col bg-navBg2 py-4 pl-2 pr-0 overflow-y-scroll text-white max-h-screen`}
+      className={`relative z-50 flex min-h-screen h-screen w-64 max-w-[20rem] flex-col bg-navBg2 py-4 pl-2 pr-0 overflow-y-scroll text-white max-h-screen left-scroll`}
     >
       {/* Logo Section */}
       <div className="mt-2 flex items-center justify-end gap-3 px-6 py-4">

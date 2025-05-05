@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react"; 
+import { useState } from "react";
 import CustomLabel from "../../../components/CustomLabel";
 import { useLocation, useNavigate } from "react-router-dom";
 import DatePickerComp from "../../../components/DatePickerComp";
@@ -10,10 +10,10 @@ import toast from "react-hot-toast";
 import { useRef } from "react";
 import { Plus } from "lucide-react";
 import { Asterisk } from "lucide-react";
+import Spinner from "../../../components/Spinner";
 
 const Edit = () => {
   const location = useLocation();
-  console.log(location.state);
   const userRole = location.state.role;
   const [selectedDate, setSelectedDate] = useState(null);
   const [user, setUser] = useState(() => ({
@@ -25,7 +25,6 @@ const Edit = () => {
     niche: "",
     bio: "",
     role: userRole,
-    bday: selectedDate,
   }));
 
   const navigate = useNavigate();
@@ -36,16 +35,15 @@ const Edit = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    console.log(name, value)
     setUser((prevUser) => ({ ...prevUser, [name]: value }));
   };
 
   const handleCreate = async () => {
-    console.log(user);
+    console.log({ ...user, bday: selectedDate });
     setCreateLoading(true);
     const formData = new FormData();
 
-    formData.append("info", JSON.stringify(user));
+    formData.append("info", JSON.stringify({...user, bday: selectedDate}));
     if (selectedImage) {
       formData.append("avatar", selectedImage);
     }
@@ -181,7 +179,7 @@ const Edit = () => {
                 </CustomLabel>
 
                 <div>
-                  <label htmlFor="stack" className="flex gap-2 items-center">
+                  <label htmlFor="stack" className="flex items-center gap-2">
                     Stack
                     <Asterisk color={"red"} size={16} />
                   </label>
@@ -248,7 +246,7 @@ const Edit = () => {
               <div className="flex items-center gap-4">
                 <BigGreenButton type="submit">Create User</BigGreenButton>
                 {createLoading && (
-                  <Loader2 className="animate-spin" color="#225522" />
+                  <Spinner />
                 )}
               </div>
             </form>

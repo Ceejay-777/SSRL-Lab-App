@@ -17,12 +17,12 @@ import { Loader } from "lucide-react";
 
 const Login = () => {
   const [username, setUsername] = useState({
-    name: "AdemideSSRL692",
+    name: "",
     isError: false,
     error: "",
   });
   const [password, setPassword] = useState({
-    password: "rJu7aZKFe2yH",
+    password: "",
     isError: false,
     error: "",
   });
@@ -93,7 +93,7 @@ const Login = () => {
               }}
               isError={username.isError}
               errorMessage={username.error}
-              placeholder='Enter userId'
+              placeholder='Enter your user ID'
             >Username</CustomLabel>
             <CustomLabel
               htmlFor="password"

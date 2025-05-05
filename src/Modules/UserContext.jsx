@@ -5,6 +5,7 @@ const DataContext = ({ children }) => {
   const [userId, setUserId] = useState("AdemideSSRL692");
   const [userProfile, setUserProfile] = useState({});
   const [userDashboard, setUserDashboard] = useState({});
+  const [unread, setUnread] = useState(0)
 
   const value = {
     userId,
@@ -13,6 +14,8 @@ const DataContext = ({ children }) => {
     setUserProfile,
     userDashboard,
     setUserDashboard,
+    unread,
+    setUnread
   };
   return <userData.Provider value={value}>{children}</userData.Provider>;
 };

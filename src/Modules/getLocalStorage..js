@@ -5,6 +5,8 @@ const getLocalStorage = (key, initialValue) => {
     return JSON.parse(saved);
   }
 
+  console.log("saved")
+
   if (initialValue instanceof Function) {
     return initialValue();
   }
