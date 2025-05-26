@@ -43,11 +43,11 @@ const TaskLabel = ({
   };
 
   return (
-    <form className={`relative flex items-center`} onSubmit={handleSubmit}>
+    <form className={`relative w-full flex items-center`} onSubmit={handleSubmit}>
       <input
         value={value}
         onChange={onChange}
-        className={`h-10 w-full appearance-none rounded-lg px-3 py-1 capitalize text-slate-900 opacity-100 focus:text-black focus:opacity-100 focus:outline-none ${inputClassName} ${checked && "italic line-through"} ${edit ? "border border-zinc-500" : "pointer-events-none select-none"} `}
+        className={`w-full h-10  rounded-lg px-3 py-1 capitalize text-slate-900 opacity-100 focus:text-black focus:opacity-100 focus:outline-none ${inputClassName} ${checked && "italic line-through"} ${edit ? "border border-zinc-500" : "pointer-events-none select-none"} `}
         placeholder={placeholder}
       />
 

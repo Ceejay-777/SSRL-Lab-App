@@ -28,17 +28,14 @@ const CreateRequest = () => {
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
-    if (handleLeaveDates) handleLeaveDates({ from: date, to: endDate });
+    setLeaveDates(prev => ({ ...prev, from: date }));
   };
 
   const handleEndDateChange = (date) => {
     setEndDate(date);
-    if (handleLeaveDates) handleLeaveDates({ from: startDate, to: date });
+    setLeaveDates(prev => ({ ...prev, to: date }));
   };
 
-  const handleLeaveDates = ({ from, to }) => {
-    setLeaveDates({ from, to });
-  };
   const [
     createRequest,
     createLoading,
@@ -71,7 +68,7 @@ const CreateRequest = () => {
         to: leaveDates.to,
         purpose,
       };
-    } else if (activeOption === "other") {
+    } else if (activeOption === "others") {
       request_dtls = {
         purpose,
       };
@@ -83,6 +80,7 @@ const CreateRequest = () => {
 
     if (res.status === 200) {
       toast.success("Request created successfully");
+      navigate("/home/requests");
     } else {
       setCreateError({
         status: true,
@@ -95,6 +93,22 @@ const CreateRequest = () => {
   };
 
   const handlePreview = () => {
+    if (activeOption === "equipment") {
+      if (!title || !eqpName || !quantity || !purpose) {
+        toast.error("Please fill all required fields before previewing.");
+        return;
+      }
+    } else if (activeOption === "leave") {
+      if (!title || !leaveDates.from || !leaveDates.to || !purpose) {
+        toast.error("Please fill all required fields before previewing.");
+        return;
+      }
+    } else if (activeOption === "others") {
+      if (!title || !purpose) {
+        toast.error("Please fill all required fields before previewing.");
+        return;
+      }
+    }
     const requestData = {
       title,
       activeOption,
@@ -105,26 +119,38 @@ const CreateRequest = () => {
       selectedRecipients,
     };
     navigate("/home/requests/preview-request", { state: requestData });
+    // console.log("request data:", requestData);
   };
 
   useEffect(() => {
+    // console.log("Request data:", request);
     if (request) {
-      const {
-        title,
-        activeOption,
-        eqpName,
-        quantity,
-        purpose,
-        leaveDates,
-        selectedRecipients,
-      } = request;
-      setTitle(title);
-      setActiveOption(activeOption);
-      setEqpName(eqpName);
-      setQuantity(quantity);
-      setPurpose(purpose);
-      setLeaveDates({ from: leaveDates.from, to: leaveDates.to });
-      setSelectedRecipients(selectedRecipients);
+      console.log("Restoring request state in CreateRequest:", request.title);
+
+      setTitle(request.title)
+      setActiveOption(request.activeOption || "equipment");
+      setEqpName(request.eqpName || "");
+      setQuantity(request.quantity || "");
+      setPurpose(request.purpose || "");
+
+
+      if (request.selectedRecipients && request.selectedRecipients.length > 0) {
+        setSelectedRecipients(request.selectedRecipients);
+      }
+
+
+      if (request.leaveDates) {
+        const fromDate = request.leaveDates.from ? new Date(request.leaveDates.from) : null;
+        const toDate = request.leaveDates.to ? new Date(request.leaveDates.to) : null;
+
+        setLeaveDates({
+          from: fromDate,
+          to: toDate
+        });
+
+        if (fromDate) setStartDate(fromDate);
+        if (toDate) setEndDate(toDate);
+      }
     }
   }, [request]);
 
@@ -160,7 +186,7 @@ const CreateRequest = () => {
           htmlFor="title"
           labelText="Title:"
           inputType="text"
-          inputValue={title}
+          value={title || ""}
           onChange={(event) => setTitle(event.target.value)}
           required={true}
           labelCLassName="text-black inline-block font-medium text-lg  mb-1 "
@@ -172,7 +198,7 @@ const CreateRequest = () => {
 
         <Toggle
           activeOptions={[activeOption, setActiveOption]}
-          ToggleItems={["equipment", "leave", "other"]}
+          ToggleItems={["equipment", "leave", "others"]}
           className="sm:mx-auto"
         />
 
@@ -187,7 +213,7 @@ const CreateRequest = () => {
           />
         )}
 
-        {(activeOption == "equipment" || activeOption == "leave") && (
+        {(activeOption === "equipment" || activeOption === "leave") && (
           <div>
             <div className="mt-2 flex flex-col items-center gap-5 sm:flex-row">
               <div>
@@ -215,7 +241,7 @@ const CreateRequest = () => {
 
         <div className="mt-2">
           <h2 className="mb-1 font-medium">
-            {activeOption == "others" ? "Give detailed description" : "Purpose"}
+            {activeOption === "others" ? "Give detailed description" : "Purpose"}
           </h2>
           <textarea
             id="purpose"
@@ -250,4 +276,4 @@ const CreateRequest = () => {
   );
 };
 
-export default CreateRequest;
+export default CreateRequest; 

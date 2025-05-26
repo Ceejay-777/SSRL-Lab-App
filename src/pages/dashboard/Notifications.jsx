@@ -1,8 +1,4 @@
 import React from "react";
-import { LiaCheckDoubleSolid } from "react-icons/lia";
-import Messages from "../../components/Messages";
-
-import img1 from "../../assets/img1.jpg";
 import { useRequest } from "../../Modules/useRequest";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -14,50 +10,8 @@ import { Dot } from "lucide-react";
 import toast from "react-hot-toast";
 import Spinner from "../../components/Spinner";
 
-const info = [
-  {
-    name: "Ogunjirin M. Boluwatife",
-    summary: "Sent you reports for week 2",
-    images: img1,
-    duration: "10 mins",
-    id: 1,
-  },
-  {
-    name: "Ogunjirin M. Boluwatife",
-    summary: "Sent you reports for week 2",
-    images: img1,
-    duration: "1 day",
-    id: 2,
-  },
-  {
-    name: "Ogunjirin M. Boluwatife",
-    summary: "Sent you reports for week 2",
-    images: img1,
-    duration: "1 day",
-    id: 3,
-  },
-  {
-    name: "Ogunjirin M. Boluwatife",
-    summary: "Sent you reports for week 2",
-    images: img1,
-    duration: "1 day",
-    id: 4,
-  },
-  {
-    name: "Ogunjirin M. Boluwatife",
-    summary: "Sent you reports for week 2",
-    images: img1,
-    duration: "1 day",
-    id: 5,
-  },
-  {
-    name: "Ogunjirin M. Boluwatife",
-    summary: "Sent you reports for week 2",
-    images: img1,
-    duration: "1 day",
-    id: 6,
-  },
-];
+
+
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);

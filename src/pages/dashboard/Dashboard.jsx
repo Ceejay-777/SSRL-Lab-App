@@ -8,6 +8,7 @@ import Reports from "./components/Reports";
 import Requests from "./components/Requests";
 import Todo from "./components/Todo";
 import Notifications from "./components/Notifications";
+import Spinner from "../../components/Spinner";
 
 const Dashboard = () => {
   const [name, setName] = useState("");
@@ -65,29 +66,44 @@ const Dashboard = () => {
     getProfile();
   }, []);
 
-  // set the date
+
 
   return (
-    <div className="p-2 fromLeft">
+    <div className="fromLeft p-2 min-h-screen">
+      {profileLoading && (
+        <div className="fixed inset-0 flex justify-center items-center bg-white bg-opacity-75 z-50">
+          <div className="flex flex-col items-center">
+            <Spinner size={50} />
+            <p className="mt-4 text-gray-600">Loading your dashboard...</p>
+          </div>
+        </div>
+      )}
+
       {profileError.status && (
         <p className="text-red-500">
           Couldn&apos;t load your dashboard. {profileError.msg} <span className="hover:underline cursor-pointer" onClick={getProfile}>Retry?</span>
         </p>
       )}
-      <div className="flex w-full flex-col items-center justify-start gap-10 overflow-y-auto md:flex-row md:items-start ">
-        <div className="w-2/3 min-w-[370px] space-y-6 px-6 py-2 md:w-1/2 lg:w-2/5 ">
+
+      <div className="flex w-full flex-col  gap-10 md:flex-row">
+        <div className="w-full px-6 py-2 md:w-1/2 lg:w-2/5 flex flex-col gap-8">
           <Welcome name={name} />
           <Projects projects={projects} />
           <Reports reports={reports} userId={userId} />
-          <Requests requests={requests} userId={userId} />
         </div>
-        <div className="flex-grow py-2">
-          <Notifications notifications={notifications} setNotifications={setNotifications} />
+        <div className="w-full md:flex-grow py-2 px-6 flex-col flex gap-8">
+          <Notifications
+            notifications={notifications}
+            setNotifications={setNotifications}
+          />
           <Todo todos={todos} />
+          <Requests requests={requests} userId={userId} />
         </div>
       </div>
     </div>
   );
+
+
 };
 
 export default Dashboard;

@@ -11,7 +11,7 @@ const Reports = ({ reports, userId }) => {
           reports.map((report) => {
             const { _id, title, report_type, sender } = report;
             return (
-              <Link key={_id}>
+              <Link key={_id} to={`/home/reports/${_id}`} state={report}>
                 <div className="my-2 rounded-lg border p-2 hover:bg-navBg1">
                   <p className="truncate text-navBg2">{title}</p>
                   <div className="flex items-center gap-4">

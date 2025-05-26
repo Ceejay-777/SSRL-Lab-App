@@ -2,13 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { LiaCheckDoubleSolid } from "react-icons/lia";
 import { Plus } from "lucide-react";
-// import Messages from "../components/Messages";
-// import img1 from "../pages../../../../assets/img1.jpg";
 import { useRequest } from "../../../Modules/useRequest";
 import { useState } from "react";
 import { useEffect } from "react";
-import { formatTimeAgo, getInitials, getRandomSoftHexColor } from "../../../Modules/funcs";
-import { formatDistanceToNow } from "date-fns";
+import RequestsSkeleton from "../../../components/skeletons/RequestsSkeleton";
+import ReportsCard from "../components/ReportsCard"
 
 
 const Reports = () => {
@@ -73,38 +71,37 @@ const Reports = () => {
             <p className="hover:underline">mark all as read</p>
           </div>
         </div>
+        {reportsError.status && (
+          <p className="mt-2 text-red-500">
+            {reportsError.msg}
+            <p
+              className="hover:cursor-pointer hover:underline"
+              onClick={getAllReports}
+            >
+              Retry?
+            </p>
+          </p>
+        )}
 
         {/* Messages */}
         <section className="mt-4 ">
-          {reports &&
-            reports.map((report) => {
-              const { created_at, avatar, sender, title, _id } = report;
-              return (
-                <Link className="border-b flex gap-4 items-center hover:bg-zinc-100 fromTop" key={created_at} to={`/home/reports/${_id}`} state={report}>
-                  <div className="w-12 h-12 rounded-full m-2 mt-4">
-                    {avatar !== "NIL" ? (
-                      <img
-                        src={avatar}
-                        alt=""
-                        className="h-full w-full rounded-full"
-                      />
-                    ) : (
-                      <span
-                        className={`flex h-full w-full items-center justify-center rounded-full text-xs font-medium text-black border-2`}
-                        style={{
-                          backgroundColor: `${getRandomSoftHexColor()}50`,
-                        }}
-                      >{getInitials(sender.name)}</span>
-                    )}
-                  </div>
-                  <div className="flex-grow">
-                    <p className="truncate font-semibold">{title}</p>
-                    <p className="text-sm">{ sender.name}</p>
-                  </div>
-                  <p className="text-xs font-light italic">{formatDistanceToNow(created_at, {addSuffix: true})}</p>
-                </Link>
-              );
-            })}
+          {!reportsError.status ? (
+            reportsLoading ? (
+              <div>
+                <RequestsSkeleton />
+                <RequestsSkeleton />
+                <RequestsSkeleton />
+              </div>
+            ) : reports && reports.length > 0 ? (
+              reports.map((report) => (
+                <ReportsCard report={report} key={report._id} />
+              ))
+            ) : (
+              <div className="">No Reports found...</div>
+            )) : (
+            <div className="">No Reports found...</div>
+          )}
+
         </section>
       </div>
     </div>

@@ -8,15 +8,28 @@ const PreviewRequest = () => {
     const { title, activeOption, eqpName, quantity, purpose, leaveDates, selectedRecipients } = location.state || {};
 
     const handleEdit = () => {
-        navigate('/home/requests/create', { state: location.state });
+        const editData = {
+            title,
+            activeOption,
+            eqpName,
+            quantity,
+            purpose,
+            leaveDates: {
+                from: leaveDates?.from || null,
+                to: leaveDates?.to || null,
+            },
+            selectedRecipients,
+        };
+        navigate("/home/requests/create", { state: editData });
+        // console.log("Edit Data:", editData);
     };
 
     return (
         <div className="mt-2 px-6 py-4 min-h-screen overflow-y-auto">
             <h2 className="text-2xl font-semibold">Preview Request</h2>
             <hr className="bg-black mt-1" />
-            <div className="mt-8 mx-auto my-12 flex flex-col gap-5 rounded-xl border px-10 py-8 shadow-lg">
-                <h2 className='font-medium text-xl'>{title}</h2>
+            <div className="mt-8 mx-auto my-12 flex flex-col gap-4  rounded-xl border px-10 py-8 shadow-lg">
+                <h2 className='font-medium text-xl capitalize'>{title}</h2>
                 {activeOption === 'equipment' && (
                     <div className="mt-4">
                         <h3 className="text-lg font-medium">Equipment Details</h3>
@@ -44,7 +57,7 @@ const PreviewRequest = () => {
                     <>
                         <div className="mt-4">
                             <h3 className="text-lg font-medium">Leave Details</h3>
-                            <table className="w-full table-auto border-separate border border-gray-500 rounded-md mt-4">
+                            <table className="w-full md:w-1/2 table-auto border-separate border border-gray-500 rounded-md mt-4">
                                 <thead>
                                     <tr>
                                         <th className="text-left py-2 px-4 border-r border-b border-gray-500 font-medium text-lg">From</th>
@@ -54,13 +67,12 @@ const PreviewRequest = () => {
                                 <tbody>
                                     <tr>
                                         <td className="py-2 px-4 border-r border-gray-500 text-lg">
-                                            {leaveDates.from ? new Date(leaveDates.from).toLocaleDateString() : "N/A"}
+                                            {leaveDates?.from ? new Date(leaveDates.from).toLocaleDateString() : "N/A"}
                                         </td>
                                         <td className="py-2 px-4 text-lg">
-                                            {leaveDates.to ? new Date(leaveDates.to).toLocaleDateString() : "N/A"}
+                                            {leaveDates?.to ? new Date(leaveDates.to).toLocaleDateString() : "N/A"}
                                         </td>
                                     </tr>
-
                                 </tbody>
                             </table>
                             <h2 className="text-lg font-medium mt-2">Purpose</h2>
@@ -68,11 +80,9 @@ const PreviewRequest = () => {
                                 {purpose}
                             </p>
                         </div>
-
-
                     </>
                 )}
-                {activeOption === 'others' && (
+                {(activeOption === 'others') && (
                     <>
                         <h2 className="text-lg font-medium mt-2">Description:</h2>
                         <p className="text-gray-700 text-base p-4 border border-gray-300 rounded-md w-full break-words">
@@ -81,9 +91,9 @@ const PreviewRequest = () => {
                     </>
                 )}
                 <ul className="list-outside ml-2 space-y-1 pl-2">
-                    {selectedRecipients.map((recipient) => (
+                    {selectedRecipients && selectedRecipients.map((recipient) => (
                         <li key={recipient.id} className="break-words capitalize">
-                            From: {recipient.name}
+                            To: {recipient.name}
                         </li>
                     ))}
                 </ul>

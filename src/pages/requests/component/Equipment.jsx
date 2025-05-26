@@ -4,9 +4,7 @@ const Equipment = ({
   eqpName,
   setEqpName,
   quantity,
-  setQuantity,
-  purpose,
-  setPurpose,
+  setQuantity
 }) => {
 
   return (
@@ -17,7 +15,7 @@ const Equipment = ({
             htmlFor="quantity"
             labelText="Quantity"
             inputType="number"
-            inputValue={quantity || ""}
+            value={quantity || ""}
             onChange={(event) => setQuantity(event.target.value)}
             //   onBlur={() => {}}=[#
             required={true}
@@ -32,7 +30,7 @@ const Equipment = ({
             htmlFor="eqpName"
             labelText="Equipment Name:"
             inputType="text"
-            inputValue={eqpName || ""}
+            value={eqpName || ""}
             onChange={(event) => setEqpName(event.target.value)}
             //   onBlur={() => {}}
             required={true}
@@ -41,17 +39,6 @@ const Equipment = ({
           >Equipment Name:</CustomLabel>
         </div>
       </div>
-      {/* <div className=" mt-2">
-        <h2 className="font-medium mb-1">Purpose</h2>
-        <textarea
-          id="purpose"
-          value={purpose || ""}
-          onChange={(event) => setPurpose(event.target.value)}
-          className="appearance-none block w-full px-4 py-3 border border-slate-900 rounded-lg focus:outline-none resize-none h-32  text-slate-900 opacity-35 focus:text-black mt-l focus:opacity-100"
-          rows={5}
-          required
-        />
-      </div> */}
     </>
   );
 };

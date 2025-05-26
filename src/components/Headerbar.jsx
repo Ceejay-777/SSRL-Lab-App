@@ -13,7 +13,7 @@ import { useUserData } from "../Modules/UserContext.jsx";
 const Headerbar = ({ toggleSideNav, isSideNavOpen }) => {
   const navigate = useNavigate();
   const { unread } = useUserData()
-  
+
   return (
     <div
       className={`fixed left-0 right-0 top-0 z-50 flex h-[62px] max-w-screen-2xl items-center justify-between bg-white px-4 shadow-md md:px-8 lg:ml-64 ${isSideNavOpen && "translate-x-64"} transition-transform duration-300 ease-in-out lg:translate-x-0`}
@@ -38,11 +38,11 @@ const Headerbar = ({ toggleSideNav, isSideNavOpen }) => {
 
       <div className="flex gap-2 items-center">
         <Link to={`/home/dashboard/notifications`} className="relative">
-          <Bell className="cursor-pointer transition-all duration-200 hover:rotate-12 hover:scale-125 hover:transition-transform" size={28} />
-          <div className="p-[2px] aspect-square bg-logo text-white text-xs flex justify-center items-center rounded-full absolute -top-1/2 right-0">{unread}</div>
+          <Bell className="cursor-pointer transition-all duration-200 hover:rotate-12 hover:scale-125 hover:transition-transform" size={25} />
+          <div className="p-[2px] aspect-square w-4 bg-logo text-white text-xs flex justify-center items-center rounded-full absolute -top-1/2 right-0">{unread}</div>
         </Link>
         <Link to={`/home/dashboard/user-profile`}>
-          <UserRound className="cursor-pointer transition-all duration-200 hover:scale-125 hover:transition-transform border-2 rounded-full p-1 border-black" size={32}/>
+          <UserRound className="cursor-pointer transition-all duration-200 hover:scale-125 hover:transition-transform border-2 rounded-full p-1 border-black" size={25} />
         </Link>
       </div>
     </div>

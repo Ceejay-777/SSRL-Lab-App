@@ -1,20 +1,31 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import BigGreenButton from '../../../components/BigGreenButton';
+import { ArrowLeft } from 'lucide-react';
+
 export default function PreviewReport() {
     const location = useLocation()
     const navigate = useNavigate()
-    const { projectTitle, projectSummary, activeOption, period, completed, ongoing, next } = location.state || {}
+    const {
+        title,
+        summary,
+        activeOption,
+        period,
+        completed,
+        ongoing,
+        next,
+    } = location.state || {}
 
     const handleEdit = () => {
         navigate('/home/reports/create', { state: location.state })
     }
+
     return (
-        <div className="px-6 py-4 min-h-screen overflow-y-auto">
+        <div className="fromRight px-6 py-4 min-h-screen overflow-y-auto">
             <h2 className="text-2xl font-semibold capitalize">{activeOption} Report</h2>
             <hr className="bg-black mt-1" />
             <div className="mt-4 p-2">
 
-                <div className='mt-2'>
+                {/* <div className='mt-2'>
                     <p className="flex gap-2">
                         <span className="font-medium">Intern Name:</span>
                         Ogunmepon abraham
@@ -29,11 +40,15 @@ export default function PreviewReport() {
                             {period}
                         </p>
                     )}
-                </div>
+                </div> */}
 
 
                 {activeOption === 'activity' && (
                     <div className="mt-4 flex flex-col gap-8">
+                        <p className="flex gap-2">
+                            <span className="font-medium">Duration:</span>
+                            {period} report
+                        </p>
 
                         <div>
                             <div className="bg-[#347831] rounded-xl p-2 text-white text-lg "  >Completed Tasks</div>
@@ -72,15 +87,15 @@ export default function PreviewReport() {
 
                 {activeOption === 'project' && (
                     <div className="my-4">
-                        <h2 className="text-2xl font-semibold capitalize">{projectTitle} Report</h2>
+                        <h2 className="text-2xl font-semibold capitalize">{title} Report</h2>
                         <p className="mt-2 text-gray-700 text-base p-4 border border-gray-300 rounded-md whitespace-normal w-full break-words">
-                            {projectSummary}
+                            {summary}
                         </p>
                     </div>
                 )}
 
                 <div className='mt-8'>
-                    <BigGreenButton onClick={handleEdit}>Go back to edit</BigGreenButton>
+                    <BigGreenButton action={handleEdit} className="bg-logo flex items-center gap-2 px-2"> <ArrowLeft /> Go back to edit</BigGreenButton>
                 </div>
             </div>
         </div>

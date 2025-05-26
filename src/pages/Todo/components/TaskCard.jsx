@@ -54,7 +54,7 @@ const TaskCard = ({ tasks, tasky, setTasks }) => {
         key={id}
       >
         <div
-          className={`flex w-full item-center justify-start gap-4 px-2 py-1 transition-transform duration-500 ease-in-out ${!edit ? "fromRight" : "fromLeft"}`}
+          className={`flex w-full item-center justify-start gap-3 px-2 py-1 transition-transform duration-500 ease-in-out ${!edit ? "fromRight" : "fromLeft"}`}
         >
           {checkLoading ? (
             <Loader className="animate-spin text-navBg2 self-center" />
@@ -81,7 +81,7 @@ const TaskCard = ({ tasks, tasky, setTasks }) => {
             edit={edit}
             handleEdit={() => setEdit(!edit)}
           />
-        </div>
+        </div>       
         <div className="item-center flex justify-center gap-2">
           {/* Edit */}
           {checked || edit || (

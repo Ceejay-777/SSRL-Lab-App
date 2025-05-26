@@ -78,6 +78,7 @@ const CreateReport = () => {
       next,
     };
     navigate("/home/reports/preview-report", { state: reportData });
+    console.log("report data snt:", reportData)
   };
 
   // submit
@@ -149,7 +150,7 @@ const CreateReport = () => {
           htmlFor="title"
           labelText="Project Title:"
           inputType="text"
-          inputValue={title || ""}
+          value={title || ""}
           onChange={(event) => {
             settitle(event.target.value);
           }}

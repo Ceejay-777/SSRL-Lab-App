@@ -1,13 +1,10 @@
 import { Link } from "react-router-dom";
 import { LiaCheckDoubleSolid } from "react-icons/lia";
 import { Plus } from "lucide-react";
-import Messages from "../pages../../../../components/Messages";
-import img1 from "../pages../../../../assets/img1.jpg";
 import { useRequest } from "../../../Modules/useRequest";
 import { useState } from "react";
 import { useEffect } from "react";
-import { formatDistanceToNow } from "date-fns";
-import { getInitials, getRandomSoftHexColor } from "../../../Modules/funcs";
+import RequestCard from "../component/RequestCard";
 import RequestsSkeleton from "../../../components/skeletons/RequestsSkeleton";
 
 const Requests = () => {
@@ -80,53 +77,35 @@ const Requests = () => {
             </div>
           </div>
 
-          {getRequestLoading && (
-            <div>
-              <RequestsSkeleton />
-              <RequestsSkeleton />
-              <RequestsSkeleton />
-            </div>
+          {getRequestError.status && (
+            <p className="mt-2 text-red-500">
+              {getRequestError.msg}
+              <p className="hover:cursor-pointer hover:underline"
+                onClick={getAllRequests}>
+                Retry?
+              </p>
+            </p>
           )}
+
+
           {/* Messages */}
           <section className="mt-4">
-            {requests &&
-              requests.map((request) => {
-                const { created_at, avatar, sender, title, _id } = request;
-                return (
-                  <Link
-                    className="fromTop flex items-center gap-4 border-b hover:bg-zinc-100"
-                    key={created_at}
-                    to={`/home/requests/${_id}`}
-                    state={request}
-                  >
-                    <div className="m-2 mt-4 h-12 w-12 rounded-full">
-                      {avatar !== "NIL" ? (
-                        <img
-                          src={avatar}
-                          alt=""
-                          className="h-full w-full rounded-full"
-                        />
-                      ) : (
-                        <span
-                          className={`flex h-full w-full items-center justify-center rounded-full border-2 text-xs font-medium text-black`}
-                          style={{
-                            backgroundColor: `${getRandomSoftHexColor()}50`,
-                          }}
-                        >
-                          {getInitials(sender.name)}
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex-grow">
-                      <p className="truncate font-semibold">{title}</p>
-                      <p className="text-sm">{sender.name}</p>
-                    </div>
-                    <p className="text-xs font-light italic">
-                      {formatDistanceToNow(created_at, { addSuffix: true })}
-                    </p>
-                  </Link>
-                );
-              })}
+
+            {!getRequestError.status ? (
+              getRequestLoading ? (
+                <div>
+                  <RequestsSkeleton />
+                  <RequestsSkeleton />
+                  <RequestsSkeleton />
+                </div>
+              ) : (
+                requests.map((request) => (
+                  <RequestCard key={request._id} request={request} />
+                ))
+              )
+            ) : (
+              <p>No requests found...</p>
+            )}
           </section>
         </div>
       </div>

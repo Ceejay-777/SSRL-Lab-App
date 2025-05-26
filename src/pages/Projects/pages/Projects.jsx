@@ -36,7 +36,6 @@ const Projects = () => {
       const inProgress = total - completed;
       setProjectsStats({ total, completed, inProgress });
     } else {
-      const data = await res.json()
       setProjectsError({ status: true, msg: data.message });
     }
     setProjectsLoading(false);

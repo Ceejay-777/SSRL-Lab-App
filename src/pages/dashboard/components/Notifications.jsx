@@ -1,38 +1,45 @@
 import { Link } from "react-router-dom";
-import { X } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
 import { Dot } from "lucide-react";
 
 const Notifications = ({ notifications, setNotifications }) => {
-  
-  
-  const dismissNotification = (id) => {
-    setNotifications(
-      notifications.filter((notification) => notification._id !== id),
-    );
-  };
 
+
+  // const dismissNotification = (id) => {
+  //   setNotifications(
+  //     notifications.filter((notification) => notification._id !== id),
+  //   );
+  // };
+  console.log(notifications)
   return (
-    <div className="mb-6">
-      <h2 className="mb-2 text-2xl font-medium">Notifications</h2>
-      <div className="h-full rounded-2xl bg-navBg2 p-4 text-white shadow-md">
-        <ul className="space-y-2 text-sm">
+    <div className="">
+      <h2 className="mb-2 text-xl font-semibold">Notifications</h2>
+      <div className="rounded-2xl bg-navBg2 p-4 text-white shadow-md">
+        <ul className="text-sm">
           {notifications.length > 0 ? (
-            notifications.map((notification) => (
-              <li
+            notifications.slice(0, 3).map((notification) => (
+              <Link
+                to={`/home/dashboard/notifications/${notification._id}`}
+                state={notification}
                 key={notification._id}
-                className="flex items-center justify-between gap-4 px-2 py-4 hover:bg-navBg1 rounded-xl"
               >
-                {notification.status == "unread" ? <Dot color={"#FFA500"} size={36}  className="w-9 h-9 min-w-9" /> : <span className="w-9 h-9 min-w-9"></span>}
-                <p>{notification.message}</p>
-                <p></p>
-                {/*Add date and time using the sent_at property in the notification object */}
-                
-                <button
-                  onClick={() => dismissNotification(notification._id)}
-                  className="text-red-500 hover:text-red-700"
+                <li
+                  className="flex items-center justify-between gap-4 rounded-xl px-2 py-2 hover:bg-navBg1"
                 >
-                </button>
-              </li>
+                  <div className="flex items-center gap-4">
+                    <Dot
+                      color={notification.status === "unread" ? "green" : "red"}
+                      size={36}
+                      className="w-9 h-9 min-w-9"
+                    />
+                    <p>{notification.message.slice(0, 35)}....</p>
+                  </div>
+                  <p className="text-xs font-light italic whitespace-nowrap ml-auto">
+                    {formatDistanceToNow(new Date(notification.sentAt), { addSuffix: true })}
+                  </p>
+                </li>
+              </Link>
+
             ))
           ) : (
             <p>No notifications</p>
@@ -40,9 +47,9 @@ const Notifications = ({ notifications, setNotifications }) => {
         </ul>
         <Link
           to={`/home/dashboard/notifications`}
-          className="mt-6 block w-fit rounded-full bg-logo px-3 py-1 text-right text-sm font-medium text-white transition-all duration-100 ease-in hover:scale-105"
+          className=" text-logo block text-right text-sm mt-6 hover:underline transition-all duration-300 ease-in"
         >
-          See All
+          See all....
         </Link>
       </div>
     </div>
