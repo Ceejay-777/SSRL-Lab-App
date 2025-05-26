@@ -50,7 +50,7 @@ const TaskCard = ({ tasks, tasky, setTasks }) => {
   return (
     <>
       <div
-        className={`m-2 flex items-center justify-between rounded-md border border-transparent px-2 hover:border-zinc-200 hover:shadow-lg`}
+        className={`m-2 flex flex-row items-center justify-between rounded-md border border-transparent px-2 hover:border-zinc-200 hover:shadow-lg`}
         key={id}
       >
         <div

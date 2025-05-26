@@ -3,7 +3,7 @@ import MyRoutes from './components/MyRoutes'
 import { useGetRequest } from './Modules/useRequest';
 import { setSessionStorage } from './Modules/getSessionStorage';
 import { Toaster } from 'react-hot-toast';
-import {Analytics} from '@vercel/analytics/react'
+// import {Analytics} from '@vercel/analytics/react'
 
 function App() {
   // const [session, setSession] = useState
@@ -26,7 +26,7 @@ function App() {
     < >
       <Toaster />
       <MyRoutes />
-      <Analytics />
+      {/* <Analytics /> */}
     </>
   );
 }

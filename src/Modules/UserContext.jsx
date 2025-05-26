@@ -20,5 +20,5 @@ const DataContext = ({ children }) => {
   return <userData.Provider value={value}>{children}</userData.Provider>;
 };
 
-export default DataContext
-export const useUserData = () => useContext(userData)
+export default DataContext;
+export const useUserData = () => useContext(userData);

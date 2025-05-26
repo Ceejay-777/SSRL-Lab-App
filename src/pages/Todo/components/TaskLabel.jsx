@@ -43,7 +43,7 @@ const TaskLabel = ({
   };
 
   return (
-    <form className={`relative w-full flex items-center`} onSubmit={handleSubmit}>
+    <form className={`relative flex items-center w-full`} onSubmit={handleSubmit}>
       <input
         value={value}
         onChange={onChange}
@@ -52,16 +52,15 @@ const TaskLabel = ({
       />
 
       {
-        <div className="flex items-center">
-          <BigGreenButton
-            className={`mx-3 ${edit || "hidden"}`}
+        <div className="flex items-center mx-3">
+          {edit && <BigGreenButton
             type={"submit"}
           >
             Save
-          </BigGreenButton>
+          </BigGreenButton>}
           {editLoading && <Spinner />}
-        </div>
-      }
+        </div>}
+
     </form>
   );
 };

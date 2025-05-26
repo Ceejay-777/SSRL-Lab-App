@@ -127,15 +127,17 @@ const ToDo = () => {
             </div>
 
             {/* Tasks */}
-            <div>
+            <div className="flex flex-col-reverse">
               {tasks.map((task) => {
                 return (
-                  <TaskCard
-                    tasks={tasks}
-                    tasky={task}
-                    setTasks={setTasks}
-                    key={task.id}
-                  />
+                  <div>
+                    <TaskCard
+                      key={task.id}
+                      tasks={tasks}
+                      tasky={task}
+                      setTasks={setTasks}
+                    />
+                  </div>
                 );
               })}
             </div>
